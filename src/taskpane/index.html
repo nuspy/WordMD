@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>WordMD</title>
+  <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <header class="top">
+    <h1>Word<span>MD</span></h1>
+    <nav class="tabs" role="tablist" aria-label="Funzioni">
+      <button role="tab" id="tab-import" aria-controls="panel-import" aria-selected="true">Importa</button>
+      <button role="tab" id="tab-style" aria-controls="panel-style" aria-selected="false">Stile</button>
+      <button role="tab" id="tab-export" aria-controls="panel-export" aria-selected="false">Esporta</button>
+      <button role="tab" id="tab-diagram" aria-controls="panel-diagram" aria-selected="false">Diagramma</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="panel-import" role="tabpanel" aria-labelledby="tab-import">
+      <p class="hint">Scegli un file <code>.md</code> con le sue immagini, oppure incolla il testo. I blocchi <code>mermaid</code> diventano diagrammi modificabili.</p>
+      <label class="file">
+        <input type="file" id="md-file" multiple accept=".md,.markdown,.txt,image/*,text/markdown,text/plain" />
+        <span>Scegli il file Markdown e le immagini</span>
+      </label>
+      <label class="file">
+        <input type="file" id="md-folder" webkitdirectory />
+        <span>Scegli una cartella intera</span>
+      </label>
+      <p class="status" id="files-info"></p>
+      <label for="md-text">Testo Markdown</label>
+      <textarea id="md-text" rows="9" spellcheck="false"></textarea>
+      <div class="card summary">
+        <div><strong>Stile:</strong> <span id="style-summary"></span></div>
+        <button type="button" id="btn-to-style" class="ghost">Modifica lo stile</button>
+      </div>
+      <label class="check"><input type="checkbox" id="md-replace" /> <span>Sostituisci tutto il documento</span></label>
+      <button class="primary" id="btn-import">Importa nel documento</button>
+      <p class="status" id="status-import" role="status" aria-live="polite"></p>
+    </section>
+
+    <section id="panel-style" role="tabpanel" aria-labelledby="tab-style" hidden>
+      <p class="hint">Queste impostazioni valgono per ogni importazione, per i diagrammi e per le anteprime. Si salvano da sole.</p>
+      <div id="settings-root"></div>
+    </section>
+
+    <section id="panel-export" role="tabpanel" aria-labelledby="tab-export" hidden>
+      <label for="exp-name">Nome del file</label>
+      <input type="text" id="exp-name" value="documento" autocomplete="off" spellcheck="false" />
+      <fieldset class="card">
+        <legend>Formato</legend>
+        <div class="radio"><input type="radio" name="fmt" id="fmt-md" value="md" checked />
+          <label for="fmt-md"><strong>Markdown</strong><small>File <code>.md</code> più un file <code>.svg</code> per ogni diagramma e le immagini.</small></label></div>
+        <div class="radio"><input type="radio" name="fmt" id="fmt-docx" value="docx" />
+          <label for="fmt-docx"><strong>Word (.docx)</strong><small>Diagrammi come immagini fisse, più i file <code>.svg</code> a fianco.</small></label></div>
+        <div class="radio"><input type="radio" name="fmt" id="fmt-mdocx" value="mdocx" />
+          <label for="fmt-mdocx"><strong>Word modificabile (.mdocx)</strong><small>Come .docx, ma i diagrammi conservano il codice Mermaid e restano modificabili.</small></label></div>
+      </fieldset>
+      <button class="primary" id="btn-export">Esporta</button>
+      <p class="status" id="status-export" role="status" aria-live="polite"></p>
+
+      <hr />
+      <label class="file">
+        <input type="file" id="open-file" accept=".mdocx,.docx" />
+        <span>Apri un file .mdocx o .docx</span>
+      </label>
+      <p class="status" id="status-open" role="status" aria-live="polite"></p>
+    </section>
+
+    <section id="panel-diagram" role="tabpanel" aria-labelledby="tab-diagram" hidden>
+      <label for="mm-code">Codice Mermaid</label>
+      <textarea id="mm-code" rows="8" spellcheck="false">flowchart LR
+  A[Markdown] --> B[Word]
+  B --> C[Markdown e SVG]</textarea>
+      <div class="preview" id="mm-preview" aria-label="Anteprima del diagramma"></div>
+      <p class="status bad" id="mm-error" role="alert"></p>
+      <button class="primary" id="btn-insert">Inserisci nel documento</button>
+      <button id="btn-update" hidden>Aggiorna il diagramma selezionato</button>
+      <p class="status" id="status-diagram" role="status" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <script type="module" src="./main.ts"></script>
+</body>
+</html>

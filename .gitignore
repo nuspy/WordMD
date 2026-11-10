@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.selftest/
+.env
+.env.*
+*.log
+*.bak
+*.zip
+.vscode/
+.idea/
+# empty placeholder file
+/Acknowledgments.txt
